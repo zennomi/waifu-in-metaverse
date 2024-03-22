@@ -35,28 +35,19 @@ function App() {
         </Canvas>
       </KeyboardControls> */}
       <VRButton />
-      <Canvas>
+      <Canvas shadows camera={{ fov: 45 }}>
         <Sky sunPosition={[100, 20, 100]} />
         <ambientLight intensity={5} />
         <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-        <XR>
-          <Physics>
-            <Gallery />
-            <Ground />
-          </Physics>
-          <Controllers />
-          <Hands />
-          <TeleportationPlane
-            /** Whether to allow teleportation from left controller. Default is `false` */
-            leftHand={true}
-            /** Whether to allow teleportation from right controller. Default is `false` */
-            rightHand={true}
-            /** The maximum distance from the camera to the teleportation point. Default is `10` */
-            maxDistance={10}
-            /** The radial size of the teleportation marker. Default is `0.25` */
-            size={0.25}
-          />
-        </XR>
+        <Physics debug>
+          <Gallery />
+          <Ground />
+          <XR>
+            <Player />
+            <Controllers />
+            <Hands />
+          </XR>
+        </Physics>
       </Canvas>
     </div>
   );

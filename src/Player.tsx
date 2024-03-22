@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { useFrame } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
 import { CapsuleCollider, RapierRigidBody, RigidBody, useRapier, vec3 } from "@react-three/rapier"
+import { useXR } from "@react-three/xr"
 
 const SPEED = 5
 const direction = new THREE.Vector3()
@@ -14,6 +15,7 @@ export function Player() {
     const ref = useRef<RapierRigidBody>(null)
     const rapier = useRapier()
     const [, get] = useKeyboardControls()
+    const player = useXR((state) => state.player)
     useFrame((state) => {
         if (!ref.current) return;
         const { forward, backward, left, right, jump } = get()
@@ -21,6 +23,7 @@ export function Player() {
         const position = vec3(ref.current.translation())
         // update camera
         state.camera.position.set(position.x, position.y, position.z)
+        player.position.set(position.x, position.y + 1, position.z)
         // movement
         frontVector.set(0, 0, Number(backward) - Number(forward))
         sideVector.set(Number(left) - Number(right), 0, 0)
